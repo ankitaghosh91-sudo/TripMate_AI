@@ -54,10 +54,15 @@ if not GROQ_API_KEY :
 #LLM
 # =========
 
-llm = ChatGroq(
-    model = "llama-3.3-70b-versatile",
-    api_key= GROQ_API_KEY
-)
+#llm = ChatGroq(model = "llama-3.3-70b-versatile",api_key= GROQ_API_KEY)
+
+#model setup
+primary_llm = ChatGroq(model="llama-3.3-70b-versatile", temperature=0, max_retries=1)
+fallback_llm = ChatGroq(model="llama-3.1-8b-instant", temperature=0)
+
+# Single-line fallback setup
+llm = primary_llm.with_fallbacks([fallback_llm])
+
 
 # ========
 # STATE
